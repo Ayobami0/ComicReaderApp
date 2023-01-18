@@ -19,7 +19,6 @@ class _HomePageState extends State<HomePage> {
               List<Widget> children = [];
               if (snapshot.hasData) {
                 dynamic data = snapshot.data;
-                // print(Comic.fromJson(data[0]).title);
                 children = <Widget>[
                   Expanded(
                       child: GridView.builder(
@@ -27,11 +26,12 @@ class _HomePageState extends State<HomePage> {
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
-                                  mainAxisSpacing: 10,
-                                  crossAxisSpacing: 10,
-                                  childAspectRatio: 1 / 2),
+                                  mainAxisSpacing: 5,
+                                  crossAxisSpacing: 5,
+                                  childAspectRatio: 3 / 5),
                           itemBuilder: ((context, index) {
-                            return Container(
+                            return Card(
+                              elevation: 5,
                               child: ComicDisplayTile(
                                   title: Comic.fromJson(data[index]).title,
                                   views: Comic.fromJson(data[index]).views,
@@ -65,6 +65,8 @@ class _HomePageState extends State<HomePage> {
                 ];
               }
               return Column(children: children);
-            })));
+            })
+        )
+    );
   }
 }
