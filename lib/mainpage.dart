@@ -1,54 +1,70 @@
 import 'package:comic_reader/comics.dart';
+import 'package:comic_reader/widgets/comic_tile.dart';
 import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
-  // List<Map> itemList =  List.generate(24, (index) => {
-  //     'id': index,
-  //     'name': 'Manga',
-  //     'ratings': '4.5',
-  //     'views': '1.23M'
-  //   }
-  // ).toList();
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
 
-  late List comicList;
-
-  void _getComicsList() async{
-    comicList = await getAllComicsJson();
-  }
-
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-          children: [
-            Row(
-              children: [
-              ],
-            ),
-            Row(
-              children: [],
-            ),
-            Flexible(
-            child:GridView.builder(
-              itemCount: itemList.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount:3),
-              itemBuilder: ((context, index) {
-                  return GridTile(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(width: 1)),
-                          child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                        ],
-                      )
-                    ),
-                );
-              }),
-            ))
-          ],
-      )
-    );
+        body: FutureBuilder(
+            future: getAllComicsJson(),
+            builder: ((context, snapshot) {
+              List<Widget> children = [];
+              if (snapshot.hasData) {
+                dynamic data = snapshot.data;
+                // print(Comic.fromJson(data[0]).title);
+                children = <Widget>[
+                  Expanded(
+                      child: GridView.builder(
+                          itemCount: data.length,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  mainAxisSpacing: 10,
+                                  crossAxisSpacing: 10,
+                                  childAspectRatio: 1 / 2),
+                          itemBuilder: ((context, index) {
+                            return Container(
+                              child: ComicDisplayTile(
+                                  title: Comic.fromJson(data[index]).title,
+                                  views: Comic.fromJson(data[index]).views,
+                                  url: Comic.fromJson(data[index]).imageLink),
+                            );
+                          })))
+                ];
+              } else if (snapshot.hasError) {
+                children = <Widget>[
+                  const Icon(
+                    Icons.error_outline,
+                    color: Colors.red,
+                    size: 60,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16),
+                    child: Text('Error: ${snapshot.error}'),
+                  ),
+                ];
+              } else {
+                children = const <Widget>[
+                  SizedBox(
+                    width: 60,
+                    height: 60,
+                    child: CircularProgressIndicator(),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 16),
+                    child: Text('Awaiting result...'),
+                  ),
+                ];
+              }
+              return Column(children: children);
+            })));
   }
 }

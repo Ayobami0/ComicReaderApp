@@ -31,10 +31,10 @@ class Comic {
     return Comic(
       id: json['id'],
       title: json['title'],
-      description: json['description'],
-      views: json['views'],
-      imageLink: json['image'],
-      author: json['author'],
+      description: json['metadata']['description'],
+      views: json['metadata']['views'],
+      imageLink: json['metadata']['image'],
+      author: json['metadata']['author'],
     );
   }
 
@@ -53,6 +53,6 @@ class Comic {
 
 void main() async {
   List jsonInstance = await getAllComicsJson();
-  dynamic chapList = await Comic.fromJson(jsonInstance[0]).getComicChapters(read: true, chapter: 1);
+  dynamic chapList = await Comic.fromJson(jsonInstance[0]).imageLink;
   print(chapList);
 }
