@@ -21,6 +21,7 @@ class ComicImagesPage extends StatelessWidget {
                 itemCount: data.length,
                 itemBuilder: (BuildContext build, int index) {
                   return ImageWidget(imageUrl: data[index.toString()]);
+                  // return Text('test');
                 });
           } else if (snapshot.hasError) {
             return Center(

@@ -39,7 +39,7 @@ class ComicDisplayTile extends StatelessWidget {
           ),
         ),
         child: Container(
-            child: ImageWidget(imageUrl: comic.imageLink))
+            child: ImageWidget(imageUrl: comic.imageLink,))
     );
   }
 }

@@ -3,7 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 class ImageWidget extends StatelessWidget {
   final String imageUrl;
-  Map<String, String> headers = {};
+  Map<String, String> headers = {'referer':'https://mangakakalot.com/'};
   
   // final double height, width;
 
