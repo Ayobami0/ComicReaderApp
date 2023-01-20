@@ -1,30 +1,33 @@
+import 'package:comic_reader/comics.dart';
 import 'package:comic_reader/widgets/image.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 
 
 class ComicDisplayTile extends StatelessWidget {
-  final String title,views, url;
+  final Comic comic;
   
 
   const ComicDisplayTile({
     Key? key,
-    required this.title,
-    required this.views,
-    required this.url,
+    required this.comic
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GridTile(
         footer: GestureDetector(
-          onTap: () {print('tapped');},
+          onTap: () {
+            print('tapped');
+            context.push('/comic', extra: comic);
+            },
           child: GridTileBar(
             backgroundColor: Colors.black,
-            title: Text(title),
+            title: Text(comic.title),
             subtitle: Row(
               children: [
-                Text(views),
+                Text(comic.views),
               ],
             ),
             trailing: IconButton(
@@ -36,7 +39,7 @@ class ComicDisplayTile extends StatelessWidget {
           ),
         ),
         child: Container(
-            child: ImageWidget(imageUrl: url))
+            child: ImageWidget(imageUrl: comic.imageLink))
     );
   }
 }

@@ -24,18 +24,17 @@ class _HomePageState extends State<HomePage> {
                       child: GridView.builder(
                           itemCount: data.length,
                           gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  mainAxisSpacing: 5,
-                                  crossAxisSpacing: 5,
-                                  childAspectRatio: 3 / 5),
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              mainAxisSpacing: 5,
+                              crossAxisSpacing: 5,
+                              childAspectRatio: 3 / 5),
                           itemBuilder: ((context, index) {
                             return Card(
                               elevation: 5,
                               child: ComicDisplayTile(
-                                  title: Comic.fromJson(data[index]).title,
-                                  views: Comic.fromJson(data[index]).views,
-                                  url: Comic.fromJson(data[index]).imageLink),
+                                  comic: Comic.fromJson(data[index]),
+                              ),
                             );
                           })))
                 ];
@@ -52,12 +51,9 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ];
               } else {
-                children = const <Widget>[
-                  SizedBox(
-                    width: 60,
-                    height: 60,
-                    child: CircularProgressIndicator(),
-                  ),
+                children = <Widget>[
+                  SizedBox(height: 100,),
+                  Center(child: Image.asset('assets/loading/4M4x.gif')),
                   Padding(
                     padding: EdgeInsets.only(top: 16),
                     child: Text('Awaiting result...'),
@@ -65,8 +61,6 @@ class _HomePageState extends State<HomePage> {
                 ];
               }
               return Column(children: children);
-            })
-        )
-    );
+            })));
   }
 }

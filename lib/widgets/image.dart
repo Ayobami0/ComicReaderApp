@@ -3,12 +3,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 class ImageWidget extends StatelessWidget {
   final String imageUrl;
+  Map<String, String> headers = {};
   
   // final double height, width;
 
-  const ImageWidget({
+  ImageWidget({
     super.key, 
     required this.imageUrl,
+    headers
     // required this.height,
     // required this.width
   });
@@ -19,6 +21,7 @@ class ImageWidget extends StatelessWidget {
       imageUrl: imageUrl,
       placeholder: ((context, url) => CircularProgressIndicator()),
       fit: BoxFit.contain,
+      httpHeaders: headers,
       // height: height,
       // width: width,
     );
