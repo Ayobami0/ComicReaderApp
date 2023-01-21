@@ -10,57 +10,85 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  int _page = 1;
+
+  late Future _getAllComic;
+
+  void _navigatePage(){
+    setState(() {
+      _getAllComic = getAllComicsJson(page: _page+1);
+      _page++;
+      print(_page);
+    });
+  }
+
+  @override
+  void initState() {
+    _getAllComic = getAllComicsJson(page: _page);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: FutureBuilder(
-            future: getAllComicsJson(),
+            future: _getAllComic,
             builder: ((context, snapshot) {
-              List<Widget> children = [];
               if (snapshot.hasData) {
                 dynamic data = snapshot.data;
-                children = <Widget>[
-                  Expanded(
-                      child: GridView.builder(
-                          itemCount: data.length,
-                          gridDelegate:
+                return Stack(children: <Widget>[
+                  GridView.builder(
+                      itemCount: data.length,
+                      gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
                               mainAxisSpacing: 5,
                               crossAxisSpacing: 5,
                               childAspectRatio: 3 / 5),
-                          itemBuilder: ((context, index) {
-                            return Card(
-                              elevation: 5,
-                              child: ComicDisplayTile(
-                                  comic: Comic.fromJson(data[index]),
-                              ),
-                            );
-                          })))
-                ];
+                      itemBuilder: ((context, index) {
+                        return Card(
+                          elevation: 5,
+                          child: ComicDisplayTile(
+                            comic: Comic.fromJson(data[index]),
+                          ),
+                        );
+                      })
+                  ),
+                  Positioned(
+                    bottom: 1,
+                    left: 5,
+                    child: ElevatedButton(
+                        onPressed: () => _navigatePage(),
+                        child: Text('PREV')
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 1,
+                    right: 5,
+                    child: ElevatedButton(
+                        onPressed: () => _navigatePage(),
+                        child: Text('NEXT')
+                    ),
+                  ),
+                ]);
               } else if (snapshot.hasError) {
-                children = <Widget>[
-                  const Icon(
-                    Icons.error_outline,
-                    color: Colors.red,
-                    size: 60,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16),
-                    child: Text('Error: ${snapshot.error}'),
-                  ),
-                ];
+                return Center(
+                  child: Column(children: <Widget>[
+                    const Icon(
+                      Icons.error_outline,
+                      color: Colors.red,
+                      size: 60,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16),
+                      child: Text('Error: ${snapshot.error}'),
+                    ),
+                  ]),
+                );
               } else {
-                children = <Widget>[
-                  SizedBox(height: 100,),
-                  Center(child: Image.asset('assets/loading/4M4x.gif')),
-                  Padding(
-                    padding: EdgeInsets.only(top: 16),
-                    child: Text('Awaiting result...'),
-                  ),
-                ];
+                return Center(child: Image.asset('assets/loading/4M4x.gif'));
               }
-              return Column(children: children);
             })));
   }
 }

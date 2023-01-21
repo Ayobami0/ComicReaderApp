@@ -3,15 +3,25 @@ import 'package:comic_reader/widgets/image.dart';
 import 'package:flutter/material.dart';
 
 class ComicImagesPage extends StatelessWidget {
-  final Comic comic;
-  final int chapter;
+  // final Comic comic;
+  // final int chapter;
 
-  const ComicImagesPage({Key? key, required this.comic, required this.chapter})
-      : super(key: key);
+  // const ComicImagesPage({Key? key, required this.comic, required this.chapter})
+  //     : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final _routeArgs = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final Comic comic = _routeArgs['comic']!;
+    final int chapter = _routeArgs['chapter']!;
     return Scaffold(
+      appBar: AppBar(
+        title: Text(comic.title),
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: Icon(Icons.arrow_back),
+        ),
+      ),
       body: FutureBuilder(
         builder: ((BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {

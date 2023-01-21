@@ -1,14 +1,13 @@
 import 'package:comic_reader/comics.dart';
 import 'package:comic_reader/widgets/image.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class ChapterPage extends StatefulWidget {
-  final Comic comic;
-  // final String imageUrl;
-
-  const ChapterPage({super.key, required this.comic});
-
+  // final Comic comic;
+  //
+  //
+  // const ChapterPage({super.key, required this.comic});
+  //
   @override
   State<ChapterPage> createState() => _ChapterPageState();
 }
@@ -16,11 +15,14 @@ class ChapterPage extends StatefulWidget {
 class _ChapterPageState extends State<ChapterPage> {
   @override
   Widget build(BuildContext context) {
+    final _routeArgs =
+      ModalRoute.of(context)!.settings.arguments as Map<String, Comic>;
+    final Comic comic = _routeArgs['comic']!;
     return Scaffold(
       appBar: AppBar(
         title: Text('Read Comic'),
         leading: IconButton(
-          onPressed: () => context.pop(),
+          onPressed: () => Navigator.pop(context),
           icon: Icon(Icons.arrow_back),
         ),
       ),
@@ -28,18 +30,18 @@ class _ChapterPageState extends State<ChapterPage> {
         padding: const EdgeInsets.all(8.0),
         child: ListView(
           children: [
-            ImageWidget(imageUrl: widget.comic.imageLink),
+            ImageWidget(imageUrl: comic.imageLink),
             SizedBox(
               height: 20,
             ),
             Text(
-              widget.comic.title,
+              comic.title,
               style: TextStyle(fontSize: 24),
             ),
-            Text(widget.comic.description),
+            Text(comic.description),
             Row(
               children: [
-                Text(widget.comic.views),
+                Text(comic.views),
               ],
             ),
             SizedBox(
@@ -56,10 +58,7 @@ class _ChapterPageState extends State<ChapterPage> {
                       itemBuilder: (BuildContext context, int index) {
                         return Card(
                           child: ListTile(
-                            onTap: () => context.push('/readChapter', extra: {
-                              'comic': widget.comic,
-                              'chapter': data.length - index
-                            }),
+                            onTap: () => Navigator.pushNamed(context, '/readChapter'),
                             title: Text(data[index]['name']),
                           ),
                         );
@@ -70,14 +69,14 @@ class _ChapterPageState extends State<ChapterPage> {
                   );
                 }
               }),
-              future: widget.comic.getComicChapters(),
+              future: comic.getComicChapters(),
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => context.push('/readChapter', extra: {
-          'comic': widget.comic,
+        onPressed: () => Navigator.pushNamed(context, '/readChapter', arguments: {
+          'comic': comic,
           'chapter': 1
         }),
         child: Text('READ'),

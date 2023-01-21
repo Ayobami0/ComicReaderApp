@@ -1,7 +1,6 @@
 import 'package:comic_reader/comics.dart';
 import 'package:comic_reader/widgets/image.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 
 
@@ -20,7 +19,7 @@ class ComicDisplayTile extends StatelessWidget {
         footer: GestureDetector(
           onTap: () {
             print('tapped');
-            context.push('/comic', extra: comic);
+            Navigator.pushNamed(context, '/comic', arguments: {'comic':comic});
             },
           child: GridTileBar(
             backgroundColor: Colors.black,
