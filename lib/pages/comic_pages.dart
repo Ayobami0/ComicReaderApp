@@ -3,12 +3,7 @@ import 'package:comic_reader/widgets/image.dart';
 import 'package:flutter/material.dart';
 
 class ComicImagesPage extends StatelessWidget {
-  // final Comic comic;
-  // final int chapter;
-
-  // const ComicImagesPage({Key? key, required this.comic, required this.chapter})
-  //     : super(key: key);
-
+  static const routeName = '/readChapter';
   @override
   Widget build(BuildContext context) {
     final _routeArgs = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;

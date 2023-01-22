@@ -1,13 +1,10 @@
 import 'package:comic_reader/comics.dart';
+import 'package:comic_reader/pages/comic_pages.dart';
 import 'package:comic_reader/widgets/image.dart';
 import 'package:flutter/material.dart';
 
 class ChapterPage extends StatefulWidget {
-  // final Comic comic;
-  //
-  //
-  // const ChapterPage({super.key, required this.comic});
-  //
+  static const routeName = '/comic';
   @override
   State<ChapterPage> createState() => _ChapterPageState();
 }
@@ -16,7 +13,7 @@ class _ChapterPageState extends State<ChapterPage> {
   @override
   Widget build(BuildContext context) {
     final _routeArgs =
-      ModalRoute.of(context)!.settings.arguments as Map<String, Comic>;
+        ModalRoute.of(context)!.settings.arguments as Map<String, Comic>;
     final Comic comic = _routeArgs['comic']!;
     return Scaffold(
       appBar: AppBar(
@@ -58,7 +55,8 @@ class _ChapterPageState extends State<ChapterPage> {
                       itemBuilder: (BuildContext context, int index) {
                         return Card(
                           child: ListTile(
-                            onTap: () => Navigator.pushNamed(context, '/readChapter'),
+                            onTap: () => Navigator.pushNamed(
+                                context, ComicImagesPage.routeName),
                             title: Text(data[index]['name']),
                           ),
                         );
@@ -75,10 +73,8 @@ class _ChapterPageState extends State<ChapterPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.pushNamed(context, '/readChapter', arguments: {
-          'comic': comic,
-          'chapter': 1
-        }),
+        onPressed: () => Navigator.pushNamed(context, ComicImagesPage.routeName,
+            arguments: {'comic': comic, 'chapter': 1}),
         child: Text('READ'),
       ),
     );
