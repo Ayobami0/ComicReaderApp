@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 
 class ChapterPage extends StatefulWidget {
   static const routeName = '/comic';
+
+  const ChapterPage({super.key});
   @override
   State<ChapterPage> createState() => _ChapterPageState();
 }
@@ -12,15 +14,15 @@ class ChapterPage extends StatefulWidget {
 class _ChapterPageState extends State<ChapterPage> {
   @override
   Widget build(BuildContext context) {
-    final _routeArgs =
+    final routeArgs =
         ModalRoute.of(context)!.settings.arguments as Map<String, Comic>;
-    final Comic comic = _routeArgs['comic']!;
+    final Comic comic = routeArgs['comic']!;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Read Comic'),
+        title: const Text('Read Comic'),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
         ),
       ),
       body: Padding(
@@ -28,12 +30,12 @@ class _ChapterPageState extends State<ChapterPage> {
         child: ListView(
           children: [
             ImageWidget(imageUrl: comic.imageLink),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Text(
               comic.title,
-              style: TextStyle(fontSize: 24),
+              style: const TextStyle(fontSize: 24),
             ),
             Text(comic.description),
             Row(
@@ -41,7 +43,7 @@ class _ChapterPageState extends State<ChapterPage> {
                 Text(comic.views),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             FutureBuilder(
@@ -49,20 +51,21 @@ class _ChapterPageState extends State<ChapterPage> {
                 if (snapshot.hasData) {
                   List data = snapshot.data;
                   return ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: data.length,
                       itemBuilder: (BuildContext context, int index) {
                         return Card(
                           child: ListTile(
                             onTap: () => Navigator.pushNamed(
-                                context, ComicImagesPage.routeName),
+                                context, ComicImagesPage.routeName,
+                                arguments: {'comic': comic, 'chapter': data.length - index}),
                             title: Text(data[index]['name']),
                           ),
                         );
                       });
                 } else {
-                  return Center(
+                  return const Center(
                     child: CircularProgressIndicator(),
                   );
                 }
@@ -75,7 +78,7 @@ class _ChapterPageState extends State<ChapterPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.pushNamed(context, ComicImagesPage.routeName,
             arguments: {'comic': comic, 'chapter': 1}),
-        child: Text('READ'),
+        child: const Text('READ'),
       ),
     );
   }
