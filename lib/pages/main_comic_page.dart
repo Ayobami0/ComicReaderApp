@@ -74,7 +74,7 @@ class _MainComicPageState extends State<MainComicPage> with AutomaticKeepAliveCl
             future: getAllComicsJson(page: _page, sort: widget.sort),
             builder: ((context, snapshot) {
               if (snapshot.hasData) {
-                dynamic data = items;
+                List data = items;
                 return RefreshIndicator(
                   onRefresh: refresh,
                   child: GridView.builder(

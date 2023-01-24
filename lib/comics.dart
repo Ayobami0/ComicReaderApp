@@ -1,4 +1,3 @@
-import 'package:async/async.dart';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
@@ -10,7 +9,6 @@ Future<List> getAllComicsJson({page = 1, sort = '', search = ''}) async {
   if (response.statusCode == 200) {
     return jsonDecode(response.body);
   } else {
-    print(response.statusCode);
     throw Exception('Unable to get response');
   }
 }
