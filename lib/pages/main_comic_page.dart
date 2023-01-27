@@ -1,6 +1,7 @@
 import 'package:comic_reader/comics.dart';
 import 'package:comic_reader/widgets/comic_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class MainComicPage extends StatefulWidget {
 
@@ -120,7 +121,7 @@ class _MainComicPageState extends State<MainComicPage> with AutomaticKeepAliveCl
                   )
                 );
               } else {
-                return Center(child: Image.asset('assets/loading/4M4x.gif'));
+                return Center(child: SpinKitSpinningLines(color: Theme.of(context).primaryColor,));
               }
             }))
     );

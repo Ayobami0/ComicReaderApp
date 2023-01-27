@@ -79,7 +79,7 @@ class _SearchResultState extends State<SearchResult> {
             return const NotFoundWidget();
           }
           return GridView.builder(
-              itemCount: snapshot.data.length + 1,
+              itemCount: snapshot.data.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   mainAxisSpacing: 5,
@@ -114,16 +114,17 @@ class NotFoundWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child:
-          Column(mainAxisAlignment: MainAxisAlignment.center, children: const [
+          Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         Icon(
           Icons.search,
           size: 90,
+          color: Theme.of(context).primaryColor,
         ),
-        Text(
+        const Text(
           'No Results Found',
           style: TextStyle(fontSize: 20),
         ),
-        Text('Try a different search')
+        const Text('Try a different search')
       ]),
     );
   }

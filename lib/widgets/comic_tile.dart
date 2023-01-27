@@ -19,11 +19,10 @@ class ComicDisplayTile extends StatelessWidget {
     return GridTile(
         footer: GestureDetector(
           onTap: () {
-            print('tapped');
             Navigator.pushNamed(context, ChapterPage.routeName, arguments: {'comic':comic});
             },
           child: GridTileBar(
-            backgroundColor: Colors.black,
+            backgroundColor: Theme.of(context).primaryColor,
             title: Text(comic.title),
             subtitle: Row(
               children: [

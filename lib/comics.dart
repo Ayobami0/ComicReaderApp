@@ -48,10 +48,3 @@ class Comic {
     }
   }
 }
-
-void main() async {
-  List jsonInstance = await getAllComicsJson();
-  dynamic chapList = await Comic.fromJson(jsonInstance[0]);
-  dynamic chap = await chapList.getComicChapters(read: true, chapter: 1);
-  print(chap);
-}

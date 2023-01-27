@@ -10,13 +10,13 @@ class ComicImagesPage extends StatelessWidget {
     final Comic comic = _routeArgs['comic']!;
     final int chapter = _routeArgs['chapter']!;
     return Scaffold(
-      appBar: AppBar(
-        title: Text(comic.title),
-        leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: Icon(Icons.arrow_back),
-        ),
-      ),
+      // appBar: AppBar(
+      //   title: Text(comic.title),
+      //   leading: IconButton(
+      //     onPressed: () => Navigator.pop(context),
+      //     icon: Icon(Icons.arrow_back),
+      //   ),
+      // ),
       body: FutureBuilder(
         builder: ((BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
