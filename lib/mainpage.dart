@@ -1,3 +1,4 @@
+import 'package:comic_reader/pages/favourites_page.dart';
 import 'package:comic_reader/pages/main_comic_page.dart';
 import 'package:comic_reader/pages/search_page.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late TabController _tabController;
   @override
   void initState() {
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
 
     super.initState();
   }
@@ -43,19 +44,23 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 Tab(
                   icon: Icon(Icons.sort_by_alpha),
                 ),
+                Tab(
+                  icon: Icon(Icons.bookmark_outline),
+                ),
               ])
             ],
           ),
         ),
-        body: TabBarView(controller: _tabController, children: [
+        body: TabBarView(controller: _tabController, children: const [
           MainComicPage(sort: ''),
           MainComicPage(sort: 'topview'),
-          MainComicPage(sort: 'az')
+          MainComicPage(sort: 'az'),
+          BookmarkPage(),
         ]
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.pushNamed(context, SearchPage.routeName),
-        child: Icon(Icons.search),        
+        child: const Icon(Icons.search),
       ),
     );
   }

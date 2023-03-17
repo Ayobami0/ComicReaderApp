@@ -86,7 +86,7 @@ class _MainComicPageState extends State<MainComicPage> with AutomaticKeepAliveCl
                               crossAxisCount: 2,
                               mainAxisSpacing: 5,
                               crossAxisSpacing: 5,
-                              childAspectRatio: 3 / 5),
+                              childAspectRatio: 2 / 3),
                       itemBuilder: ((context, index) {
                         if (index < data.length) {
                           return Card(

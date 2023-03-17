@@ -1,8 +1,12 @@
+import 'package:comic_reader/favourite.dart';
 import 'package:comic_reader/mainpage.dart';
 import 'package:comic_reader/pages/comic_pages.dart';
 import 'package:comic_reader/pages/comic_chapter_page.dart';
 import 'package:comic_reader/pages/search_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'pages/favourites_page.dart';
 
 
 void main() {
@@ -34,19 +38,23 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Comic Reader',
-      theme: ThemeData(
-        primarySwatch: primaryBlack,
+    return ChangeNotifierProvider(
+      create: ((context) => Bookmarks()),
+      child: MaterialApp(
+        title: 'Comic Reader',
+        theme: ThemeData(
+          primarySwatch: primaryBlack,
+        ),
+        debugShowCheckedModeBanner: false,
+        initialRoute: HomePage.routeName,
+        routes: {
+          HomePage.routeName: (context) => const HomePage(),
+          ChapterPage.routeName: (context) => const ChapterPage(),
+          ComicImagesPage.routeName: (context) => const ComicImagesPage(),
+          SearchPage.routeName: (context) => const SearchPage(),
+          BookmarkPage.routeName: (context) => const BookmarkPage(),
+        },
       ),
-      debugShowCheckedModeBanner: false,
-      initialRoute: HomePage.routeName,
-      routes: {
-        HomePage.routeName: (context) => const HomePage(),
-        ChapterPage.routeName: (context) => const ChapterPage(),
-        ComicImagesPage.routeName: (context) => ComicImagesPage(),
-        SearchPage.routeName: (context) => const SearchPage(),
-      },
     );
   }
 }

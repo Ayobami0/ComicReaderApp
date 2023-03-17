@@ -1,5 +1,6 @@
 import 'package:comic_reader/comics.dart';
 import 'package:comic_reader/pages/comic_pages.dart';
+import 'package:comic_reader/widgets/bookmark_icon.dart';
 import 'package:comic_reader/widgets/image.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +23,7 @@ class _ChapterPageState extends State<ChapterPage> {
         title: const Text('Read Comic'),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(Icons.keyboard_arrow_left),
         ),
       ),
       body: Padding(
@@ -35,12 +36,14 @@ class _ChapterPageState extends State<ChapterPage> {
             ),
             Text(
               comic.title,
+              softWrap: true,
               style: const TextStyle(fontSize: 24),
             ),
             Text(comic.description),
             Row(
               children: [
                 Text(comic.views),
+                BookmarkIcon(comic: comic)
               ],
             ),
             const SizedBox(
@@ -77,7 +80,7 @@ class _ChapterPageState extends State<ChapterPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.pushNamed(context, ComicImagesPage.routeName,
-            arguments: {'comic': comic, 'chapter': 1}),
+            arguments: {'comic': comic, 'chapter': comic.lastChapterIndex}),
         child: const Text('READ'),
       ),
     );

@@ -1,7 +1,11 @@
 import 'package:comic_reader/comics.dart';
+import 'package:comic_reader/favourite.dart';
 import 'package:comic_reader/pages/comic_chapter_page.dart';
 import 'package:comic_reader/widgets/image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'bookmark_icon.dart';
 
 
 
@@ -16,12 +20,12 @@ class ComicDisplayTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridTile(
-        footer: GestureDetector(
-          onTap: () {
-            Navigator.pushNamed(context, ChapterPage.routeName, arguments: {'comic':comic});
-            },
-          child: GridTileBar(
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, ChapterPage.routeName, arguments: {'comic':comic});
+        },
+      child: GridTile(
+          footer: GridTileBar(
             backgroundColor: Theme.of(context).primaryColor,
             title: Text(comic.title),
             subtitle: Row(
@@ -29,16 +33,12 @@ class ComicDisplayTile extends StatelessWidget {
                 Text(comic.views),
               ],
             ),
-            trailing: IconButton(
-                onPressed: () {print('pressed');},
-                icon: const Icon(
-                  Icons.bookmark_add,
-                )
-            ),
+            trailing: BookmarkIcon(comic: comic),
           ),
-        ),
-        child: Container(
-            child: ImageWidget(imageUrl: comic.imageLink,))
+          child: Container(
+              child: ImageWidget(imageUrl: comic.imageLink,))
+      ),
     );
   }
 }
+

@@ -25,18 +25,32 @@ class _SearchPageState extends State<SearchPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Search'),
+        leading: IconButton(icon: const Icon(Icons.keyboard_arrow_left), onPressed: ()=>Navigator.pop(context),),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(children: [
-          TextField(
-            onChanged: (value) {
-              setState(() {
-                searchText = value;
-              });
-            },
-            controller: _textController,
-            decoration: const InputDecoration(icon: Icon(Icons.search)),
+          Container(
+            height: 40,
+            margin: const EdgeInsets.all(10),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            decoration: BoxDecoration(
+              border: Border.all(),
+              borderRadius: BorderRadius.circular(10)
+            ),
+            child: TextField(
+              onChanged: (value) {
+                setState(() {
+                  searchText = value;
+                });
+              },
+              controller: _textController,
+              decoration: const InputDecoration(
+                icon: Icon(Icons.search),
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.only(bottom: 7),
+              ),
+            ),
           ),
           const Text(
             'Search Results',

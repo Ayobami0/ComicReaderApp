@@ -30,7 +30,7 @@ class ImageWidget extends StatelessWidget {
           )),
         ),
       )),
-      fit: BoxFit.contain,
+      fit: BoxFit.cover,
       httpHeaders: headers,
       // height: height,
       // width: width,

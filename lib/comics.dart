@@ -15,8 +15,9 @@ Future<List> getAllComicsJson({page = 1, sort = '', search = ''}) async {
 
 class Comic {
   final dynamic imageLink, id, title, description, views, author;
+  int lastChapterIndex = 1;
 
-  const Comic({
+  Comic({
     required this.imageLink,
     required this.id,
     required this.title,

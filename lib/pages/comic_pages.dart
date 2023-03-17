@@ -4,39 +4,47 @@ import 'package:flutter/material.dart';
 
 class ComicImagesPage extends StatelessWidget {
   static const routeName = '/readChapter';
+
+  const ComicImagesPage({super.key});
   @override
   Widget build(BuildContext context) {
-    final _routeArgs = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    final Comic comic = _routeArgs['comic']!;
-    final int chapter = _routeArgs['chapter']!;
+    final routeArgs = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final Comic comic = routeArgs['comic']!;
+    final int chapter = routeArgs['chapter']!;
+    comic.lastChapterIndex = chapter;
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text(comic.title),
-      //   leading: IconButton(
-      //     onPressed: () => Navigator.pop(context),
-      //     icon: Icon(Icons.arrow_back),
-      //   ),
-      // ),
       body: FutureBuilder(
         builder: ((BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             Map data = snapshot.data;
-            return ListView.builder(
-                shrinkWrap: true,
-                itemCount: data.length,
-                itemBuilder: (BuildContext build, int index) {
-                  return ImageWidget(imageUrl: data[index.toString()]);
-                  // return Text('test');
-                });
+            return CustomScrollView(
+              slivers: [
+                SliverAppBar(
+                  snap: true,
+                  floating: true,
+                  pinned: false,
+                  title: Text('Chapter $chapter'),
+                  leading: IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: const Icon(Icons.keyboard_arrow_left),
+                  ),
+                ),
+                SliverList(
+                  delegate: SliverChildListDelegate(
+                    data.values.map((e) => ImageWidget(imageUrl: e)).toList(),
+                  )
+                )
+              ],
+            );
           } else if (snapshot.hasError) {
-            return Center(
+            return const Center(
               child: Icon(
                 Icons.error,
                 size: 30,
               ),
             );
           } else {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
