@@ -24,19 +24,23 @@ class ComicDisplayTile extends StatelessWidget {
       onTap: () {
         Navigator.pushNamed(context, ChapterPage.routeName, arguments: {'comic':comic});
         },
-      child: GridTile(
-          footer: GridTileBar(
-            backgroundColor: Theme.of(context).primaryColor,
-            title: Text(comic.title),
-            subtitle: Row(
-              children: [
-                Text(comic.views),
-              ],
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: GridTile(
+            footer: GridTileBar(
+              backgroundColor: Theme.of(context).primaryColor,
+              title: Text(comic.title),
+              subtitle: Row(
+                children: [
+                  Text(comic.views),
+                ],
+              ),
+              trailing: BookmarkIcon(comic: comic),
             ),
-            trailing: BookmarkIcon(comic: comic),
-          ),
-          child: Container(
-              child: ImageWidget(imageUrl: comic.imageLink,))
+            child: Hero(
+              tag: comic.id,
+                child: ImageWidget(imageUrl: comic.imageLink,))
+        ),
       ),
     );
   }

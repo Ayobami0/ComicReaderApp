@@ -78,30 +78,30 @@ class _MainComicPageState extends State<MainComicPage> with AutomaticKeepAliveCl
                 List data = items;
                 return RefreshIndicator(
                   onRefresh: refresh,
-                  child: GridView.builder(
-                      controller: controller,
-                      itemCount: data.length + 1,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              mainAxisSpacing: 5,
-                              crossAxisSpacing: 5,
-                              childAspectRatio: 2 / 3),
-                      itemBuilder: ((context, index) {
-                        if (index < data.length) {
-                          return Card(
-                            elevation: 5,
-                            child: ComicDisplayTile(
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: GridView.builder(
+                        controller: controller,
+                        itemCount: data.length + 1,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                mainAxisSpacing: 5,
+                                crossAxisSpacing: 5,
+                                childAspectRatio: 2 / 3),
+                        itemBuilder: ((context, index) {
+                          if (index < data.length) {
+                            return ComicDisplayTile(
                               comic: Comic.fromJson(data[index]),
-                            ),
-                          );
-                        } else {
-                          return const Padding(
-                              padding: EdgeInsets.symmetric(vertical: 12),
-                              child:
-                                  Center(child: CircularProgressIndicator()));
-                        }
-                      })),
+                            );
+                          } else {
+                            return const Padding(
+                                padding: EdgeInsets.symmetric(vertical: 12),
+                                child:
+                                    Center(child: CircularProgressIndicator()));
+                          }
+                        })),
+                  ),
                 );
               } else if (snapshot.hasError) {
                 return RefreshIndicator(

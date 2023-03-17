@@ -27,10 +27,10 @@ class _ChapterPageState extends State<ChapterPage> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: ListView(
           children: [
-            ImageWidget(imageUrl: comic.imageLink),
+            Hero(tag: comic.id,child: SizedBox(height: 300,child: ImageWidget(imageUrl: comic.imageLink))),
             const SizedBox(
               height: 20,
             ),
@@ -52,7 +52,7 @@ class _ChapterPageState extends State<ChapterPage> {
             FutureBuilder(
               builder: ((BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData) {
-                  List data = snapshot.data;
+                  List data = snapshot.data.reversed.toList();
                   return ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
@@ -62,7 +62,7 @@ class _ChapterPageState extends State<ChapterPage> {
                           child: ListTile(
                             onTap: () => Navigator.pushNamed(
                                 context, ComicImagesPage.routeName,
-                                arguments: {'comic': comic, 'chapter': data.length - index}),
+                                arguments: {'comic': comic, 'chapter': index+1}),
                             title: Text(data[index]['name']),
                           ),
                         );

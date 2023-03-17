@@ -35,7 +35,7 @@ class _SearchPageState extends State<SearchPage> {
             margin: const EdgeInsets.all(10),
             padding: const EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
-              border: Border.all(),
+              color: Colors.black12,
               borderRadius: BorderRadius.circular(10)
             ),
             child: TextField(
