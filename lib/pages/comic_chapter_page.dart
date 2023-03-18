@@ -20,7 +20,7 @@ class _ChapterPageState extends State<ChapterPage> {
     final Comic comic = routeArgs['comic']!;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Read Comic'),
+        title: Text('Read ${comic.title}'),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
           icon: const Icon(Icons.keyboard_arrow_left),
@@ -28,54 +28,118 @@ class _ChapterPageState extends State<ChapterPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: ListView(
-          children: [
-            Hero(tag: comic.id,child: SizedBox(height: 300,child: ImageWidget(imageUrl: comic.imageLink))),
-            const SizedBox(
-              height: 20,
-            ),
-            Text(
-              comic.title,
-              softWrap: true,
-              style: const TextStyle(fontSize: 24),
-            ),
-            Text(comic.description),
-            Row(
-              children: [
-                Text(comic.views),
-                BookmarkIcon(comic: comic)
-              ],
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            FutureBuilder(
-              builder: ((BuildContext context, AsyncSnapshot snapshot) {
-                if (snapshot.hasData) {
-                  List data = snapshot.data.reversed.toList();
-                  return ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: data.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Card(
-                          child: ListTile(
-                            onTap: () => Navigator.pushNamed(
-                                context, ComicImagesPage.routeName,
-                                arguments: {'comic': comic, 'chapter': index+1}),
-                            title: Text(data[index]['name']),
-                          ),
-                        );
-                      });
-                } else {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              }),
-              future: comic.getComicChapters(),
-            ),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                margin: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      spreadRadius: 4,
+                      blurRadius: 3
+                    )
+                  ]
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: ImageWidget(imageUrl: comic.imageLink),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Text(
+                comic.title,
+                softWrap: true,
+                style: const TextStyle(fontSize: 24),
+              ),
+              Row(
+                children: [
+                  Text(comic.views),
+                  BookmarkIcon(comic: comic)
+                ],
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              FutureBuilder(
+                future: comic.getComicChapters(),
+                builder: ((BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasData) {
+                    Map data = snapshot.data;
+                    List chapters = data['chapters'].reversed.toList();
+                    String description = data['description'];
+                    List genres = data['genres'];
+                    List authors = data['authors'];
+                    String status = data['status'];
+                    String lastUpdate = data['updated_time'];
+                    return Column(
+                      children: [
+                        Row(
+                          children: [
+                            const Text('Author(s): '),
+                            Wrap(
+                              children: authors.map((e) => Text(e)).toList(),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Wrap(
+                          children: genres.map((e) => Container(
+                            margin: const EdgeInsets.all(5),
+                            padding: const EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              color: Colors.black38,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: Text(e),
+                          )).toList(),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Text('Status: $status'),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Text('Last Updated: $lastUpdate'),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Text(description),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        ListView.builder(
+                          shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: chapters.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Card(
+                                child: ListTile(
+                                  onTap: () => Navigator.pushNamed(
+                                      context, ComicImagesPage.routeName,
+                                      arguments: {'comic': comic, 'chapter': index+1}),
+                                  title: Text(chapters[index]['name']),
+                                ),
+                              );
+                            }),
+                      ],
+                    );
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                }),
+              ),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(

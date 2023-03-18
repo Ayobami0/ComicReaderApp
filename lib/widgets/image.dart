@@ -6,14 +6,11 @@ class ImageWidget extends StatelessWidget {
   final String imageUrl;
   Map<String, String> headers = {'referer':'https://mangakakalot.com/'};
   
-  // final double height, width;
 
   ImageWidget({
     super.key, 
     required this.imageUrl,
     headers
-    // required this.height,
-    // required this.width
   });
 
   @override
@@ -32,8 +29,6 @@ class ImageWidget extends StatelessWidget {
       )),
       fit: BoxFit.cover,
       httpHeaders: headers,
-      // height: height,
-      // width: width,
     );
   }
 }

@@ -1,15 +1,27 @@
-import 'package:comic_reader/favourite.dart';
-import 'package:comic_reader/mainpage.dart';
-import 'package:comic_reader/pages/comic_pages.dart';
-import 'package:comic_reader/pages/comic_chapter_page.dart';
-import 'package:comic_reader/pages/search_page.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 
-import 'pages/favourites_page.dart';
+import '../bookmarks.dart';
+import '../mainpage.dart';
+import '../pages/comic_chapter_page.dart';
+import '../pages/comic_pages.dart';
+import '../pages/bookmarks_page.dart';
+import '../pages/search_page.dart';
 
 
-void main() {
+void main() async{
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // initialize hive
+  await Hive.initFlutter();
+
+  Hive.registerAdapter(BookmarkAdapter());
+
+
+  await Hive.openBox<Bookmark>('bookmarks');
+
   runApp(
     MyApp()
   );

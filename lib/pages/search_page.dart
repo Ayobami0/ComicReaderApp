@@ -100,11 +100,8 @@ class _SearchResultState extends State<SearchResult> {
                   crossAxisSpacing: 5,
                   childAspectRatio: 3 / 5),
               itemBuilder: ((context, index) {
-                return Card(
-                  elevation: 5,
-                  child: ComicDisplayTile(
-                    comic: Comic.fromJson(snapshot.data[index]),
-                  ),
+                return ComicDisplayTile(
+                  comic: Comic.fromJson(snapshot.data[index]),
                 );
               }));
         } else if (snapshot.hasError) {

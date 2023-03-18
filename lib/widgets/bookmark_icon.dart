@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../comics.dart';
-import '../favourite.dart';
-
+import '../bookmarks.dart';
 
 class BookmarkIcon extends StatelessWidget {
   const BookmarkIcon({
@@ -18,16 +17,24 @@ class BookmarkIcon extends StatelessWidget {
     return Consumer<Bookmarks>(
       builder: (ctx, bookmarks, child) => IconButton(
           onPressed: () {
-            if(bookmarks.findComicById(comic.id)){
+            if (bookmarks.findComicById(comic.id)) {
               bookmarks.removeFromBookmark(comic.id);
-            }else{
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text('${comic.title} removed from bookmarks'),
+                  duration: const Duration(milliseconds: 1500)));
+            } else {
               bookmarks.addToBookmark(comic);
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text('${comic.title} added to bookmarks'),
+                duration: const Duration(milliseconds: 1500),
+              ));
             }
           },
           icon: Icon(
-            bookmarks.findComicById(comic.id) ? Icons.bookmark_added : Icons.bookmark_add,
-          )
-      ),
+            bookmarks.findComicById(comic.id)
+                ? Icons.bookmark_added
+                : Icons.bookmark_add,
+          )),
     );
   }
 }

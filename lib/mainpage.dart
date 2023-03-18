@@ -1,4 +1,4 @@
-import 'package:comic_reader/pages/favourites_page.dart';
+import 'package:comic_reader/pages/bookmarks_page.dart';
 import 'package:comic_reader/pages/main_comic_page.dart';
 import 'package:comic_reader/pages/search_page.dart';
 import 'package:flutter/material.dart';

@@ -1,6 +1,7 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
+
+import './bookmarks.dart';
 
 Future<List> getAllComicsJson({page = 1, sort = '', search = ''}) async {
   final response = await http.get(Uri.parse(
@@ -14,7 +15,7 @@ Future<List> getAllComicsJson({page = 1, sort = '', search = ''}) async {
 }
 
 class Comic {
-  final dynamic imageLink, id, title, description, views, author;
+  final dynamic imageLink, id, title, description, views, author, updateTime;
   int lastChapterIndex = 1;
 
   Comic({
@@ -24,6 +25,7 @@ class Comic {
     required this.description,
     required this.views,
     required this.author,
+    required this.updateTime,
   });
 
   factory Comic.fromJson(Map<String, dynamic> json) {
@@ -34,6 +36,19 @@ class Comic {
       views: json['metadata']['views'],
       imageLink: json['metadata']['image'],
       author: json['metadata']['author'],
+      updateTime: json['metadata']['last_update_time'] 
+    );
+  }
+
+  factory Comic.fromBookmark(Bookmark bookmark) {
+    return Comic(
+      id: bookmark.id,
+      title: bookmark.title,
+      description: bookmark.description,
+      views: bookmark.views,
+      imageLink: bookmark.imageLink,
+      author: bookmark.author,
+      updateTime: bookmark.updateTime,
     );
   }
 

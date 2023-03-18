@@ -1,9 +1,7 @@
 import 'package:comic_reader/comics.dart';
-import 'package:comic_reader/favourite.dart';
 import 'package:comic_reader/pages/comic_chapter_page.dart';
 import 'package:comic_reader/widgets/image.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import 'bookmark_icon.dart';
 
@@ -37,9 +35,7 @@ class ComicDisplayTile extends StatelessWidget {
               ),
               trailing: BookmarkIcon(comic: comic),
             ),
-            child: Hero(
-              tag: comic.id,
-                child: ImageWidget(imageUrl: comic.imageLink,))
+            child: ImageWidget(imageUrl: comic.imageLink,)
         ),
       ),
     );
